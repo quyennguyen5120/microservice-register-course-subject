@@ -1,0 +1,6 @@
+# Loại trừ các thư mục build trong toàn bộ dự án
+**/build/
+# Loại trừ các tệp biên dịch tạm thời và các thư mục build khác
+**/.gradle/
+**/.idea/
+*.log

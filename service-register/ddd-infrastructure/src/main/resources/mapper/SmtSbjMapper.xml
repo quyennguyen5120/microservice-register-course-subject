@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.infrastructure.persistence.mapper.SmtSbjMapper">
+    <insert id="createSmtSbj" useGeneratedKeys="true" keyProperty="smtSbjId">
+        INSERT INTO lab.smt_sbj
+            (smt_sbj_nm, slot)
+        VALUES (#{smtSbjNm}, #{slot})
+    </insert>
+    <update id="updateSmtSbj">
+        UPDATE lab.smt_sbj
+        SET smt_sbj_nm=#{smtSbjNm},
+            slot=#{slot}
+        WHERE smt_sbj_id = #{smtSbjId}
+    </update>
+    <update id="registerSmtSbj">
+        UPDATE smt_sbj
+        SET slot = slot - 1
+        WHERE smt_sbj_id = #{smtSbjId}
+    </update>
+
+    <select id="findById" resultType="com.example.domain.model.SmtSbjModel">
+        SELECT
+            *
+        FROM
+            smt_sbj
+        WHERE
+            smt_sbj_id = #{smtSbjId}
+    </select>
+    <select id="findSlotById" resultType="java.lang.Integer">
+        SELECT
+            slot
+        FROM
+            smt_sbj
+        WHERE
+            smt_sbj_id = #{smtSbjId}
+    </select>
+    <select id="getAll" resultType="com.example.domain.model.SmtSbjModel">
+        SELECT
+            *
+        FROM
+            smt_sbj
+        ORDER BY smt_sbj_nm
+    </select>
+</mapper>
