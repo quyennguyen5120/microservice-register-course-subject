@@ -1,4 +1,4 @@
-rootProject.name = 'com.ddd'
+rootProject.name = 'service-register'
 include 'ddd-application'
 include 'ddd-controller'
 include 'ddd-start'
