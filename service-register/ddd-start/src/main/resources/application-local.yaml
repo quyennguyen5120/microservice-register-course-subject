@@ -18,6 +18,15 @@ decorator:
     p6spy:
       enable-logging: true
 
-
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+    prometheus:
+      enabled: true
 server:
   port: 1222
