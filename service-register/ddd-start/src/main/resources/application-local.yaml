@@ -28,5 +28,62 @@ management:
       show-details: always
     prometheus:
       enabled: true
+  health:
+    circuitbreakers:
+      enabled: true
+
 server:
   port: 1222
+resilience4j:
+  circuitbreaker:
+    instances:
+      backendA:
+        registerHealthIndicator: true
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 15s
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        eventConsumerBufferSize: 10
+#        recordFailurePredicate: io.github.robwin.exception.RecordFailurePredicate
+      backendB:
+        registerHealthIndicator: true
+        slidingWindowType: TIME_BASED
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 15s
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        eventConsumerBufferSize: 10
+#        recordFailurePredicate: io.github.robwin.exception.RecordFailurePredicate
+  retry:
+    instances:
+      backendA:
+        maxAttempts: 3
+        waitDuration: 10s
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 2
+        retryExceptions:
+          - com.example.domain.common.CommonException
+      #        ignoreExceptions:
+#          - io.github.robwin.exception.BusinessException
+      backendB:
+        maxAttempts: 3
+        waitDuration: 10s
+        retryExceptions:
+          - com.example.domain.common.CommonException
+#        ignoreExceptions:
+#          - io.github.robwin.exception.BusinessException
+  ratelimiter:
+    instances:
+      backendA:
+        registerHealthIndicator: true
+        limitForPeriod: 10
+        limitRefreshPeriod: 1s
+        timeoutDuration: 0
+        eventConsumerBufferSize: 100
+      backendB:
+        limitForPeriod: 6
+        limitRefreshPeriod: 500ms
+        timeoutDuration: 3s
