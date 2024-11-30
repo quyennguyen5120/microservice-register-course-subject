@@ -26,13 +26,50 @@ subprojects {
     }
 
     dependencies {
+        testImplementation platform('org.junit:junit-bom:5.10.0')
+        testImplementation 'org.junit.jupiter:junit-jupiter'
         implementation 'org.springframework.boot:spring-boot-starter-web:3.3.5'
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
-        implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+//        implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     }
 
     test {
         useJUnitPlatform()
+    }
+}
+
+project(':ddd-start') {
+    dependencies {
+        implementation project(':ddd-controller')
+    }
+}
+
+project(':ddd-controller') {
+    dependencies {
+        implementation project(':ddd-application')
+        implementation project(':ddd-domain')
+    }
+}
+
+project(':ddd-application') {
+    dependencies {
+        implementation project(':ddd-domain')
+        implementation project(':ddd-infrastructure')
+    }
+}
+
+project(':ddd-domain') {
+    dependencies {
+    }
+}
+
+project(':ddd-infrastructure') {
+    dependencies {
+        implementation project(':ddd-domain')
+        implementation 'mysql:mysql-connector-java:8.0.33'
+        implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+        implementation 'p6spy:p6spy:3.9.1'
+        implementation group: 'org.redisson', name: 'redisson', version: '3.38.1'
     }
 }

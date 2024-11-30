@@ -10,15 +10,6 @@ repositories {
 }
 
 dependencies {
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-    implementation project(':ddd-domain')
-    implementation 'mysql:mysql-connector-java:8.0.33'
-    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
-    implementation 'p6spy:p6spy:3.9.1'
-//    implementation 'com.github.gavlyukovskiy:datasource-decorator-spring-boot-autoconfigure:1.9.0'
-    // https://mvnrepository.com/artifact/org.redisson/redisson
-    implementation group: 'org.redisson', name: 'redisson', version: '3.38.1'
 }
 
 test {
