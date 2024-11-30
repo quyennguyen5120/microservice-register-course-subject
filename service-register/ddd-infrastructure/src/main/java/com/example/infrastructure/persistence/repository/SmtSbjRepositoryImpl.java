@@ -5,10 +5,13 @@ import com.example.domain.common.ErrorCode;
 import com.example.domain.model.SmtSbjModel;
 import com.example.domain.repository.SmtSbjRepository;
 import com.example.infrastructure.persistence.mapper.SmtSbjMapper;
+import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import org.redisson.api.RAtomicLong;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +24,8 @@ import java.util.concurrent.TimeUnit;
 public class SmtSbjRepositoryImpl implements SmtSbjRepository {
     private final SmtSbjMapper smtSbjMapper;
     private final RedissonClient redissonClient;
+    @Value("${resilience4j.circuitbreaker.instances.backendA.failureRateThreshold}")
+    private int failureRateThreshold;
 
     @Override
     public List<SmtSbjModel> getAll() {
@@ -47,7 +52,12 @@ public class SmtSbjRepositoryImpl implements SmtSbjRepository {
         return smtSbjModel.getSmtSbjId();
     }
 
+    public String handleException(CallNotPermittedException ex) {
+        throw new CommonException(ErrorCode.CIRCUITBREAKER_FULLY_REGISTERED);
+    }
+
     @Override//Redis
+    @CircuitBreaker(name = "backendB", fallbackMethod = "handleException")
     public String registerSubject(int smtSbjId) {
         String lockKey = "subject-lock-" + smtSbjId;
         RLock lock = redissonClient.getLock(lockKey);
@@ -68,7 +78,7 @@ public class SmtSbjRepositoryImpl implements SmtSbjRepository {
                     smtSbjMapper.registerSmtSbj(smtSbjId);
                     rs.decrementAndGet();
 
-                    return "Đăng ký thành công";
+                    return "Registered successfully";
                 } finally {
                     lock.unlock();
                 }

@@ -11,6 +11,7 @@ public enum ErrorCode {
     //API
     NOT_FOUND(StatusCode.NOT_FOUND, "COMMON-ERR-404", "Not found."),
     FULLY_REGISTERED(StatusCode.BAD_REQUEST, "SUBJECT-ERR-400", "The course is fully registered."),
+    CIRCUITBREAKER_FULLY_REGISTERED(StatusCode.BAD_REQUEST, "SUBJECT-ERR-400", "The course is fully registered (circuitbreaker)."),
     ;
     private int status;
     private String errorCode;
