@@ -54,10 +54,6 @@ subprojects {
     tasks.withType(BootJar).configureEach {
         mainClass.set('com.example.ServiceRegisterApplication')
     }
-
-    tasks.withType(BootRun).configureEach {
-        mainClass.set('com.example.ServiceRegisterApplication')
-    }
 }
 
 project(':ddd-start') {
@@ -96,10 +92,10 @@ project(':ddd-infrastructure') {
     }
 }
 
-tasks.withType(BootJar).configureEach {
-    mainClass.set('com.example.ServiceRegisterApplication')
+allprojects {
+    layout.buildDirectory.set(file("$rootDir/build/${project.name}"))
 }
 
-tasks.withType(BootRun).configureEach {
+tasks.withType(BootJar).configureEach {
     mainClass.set('com.example.ServiceRegisterApplication')
 }
