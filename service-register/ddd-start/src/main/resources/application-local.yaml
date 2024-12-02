@@ -64,14 +64,14 @@ resilience4j:
         enableExponentialBackoff: true
         exponentialBackoffMultiplier: 2
         retryExceptions:
-          - com.example.domain.common.CommonException
+          - com.example.service.domain.common.CommonException
       #        ignoreExceptions:
 #          - io.github.robwin.exception.BusinessException
       backendB:
         maxAttempts: 3
         waitDuration: 10s
         retryExceptions:
-          - com.example.domain.common.CommonException
+          - com.example.service.domain.common.CommonException
 #        ignoreExceptions:
 #          - io.github.robwin.exception.BusinessException
   ratelimiter:

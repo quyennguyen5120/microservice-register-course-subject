@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.example.infrastructure.persistence.mapper.SmtSbjMapper">
+<mapper namespace="com.example.service.infrastructure.persistence.mapper.SmtSbjMapper">
     <insert id="createSmtSbj" useGeneratedKeys="true" keyProperty="smtSbjId">
         INSERT INTO lab.smt_sbj
             (smt_sbj_nm, slot)
@@ -19,7 +19,7 @@
         WHERE smt_sbj_id = #{smtSbjId}
     </update>
 
-    <select id="findById" resultType="com.example.domain.model.SmtSbjModel">
+    <select id="findById" resultType="com.example.service.domain.model.SmtSbjModel">
         SELECT
             *
         FROM
@@ -35,7 +35,7 @@
         WHERE
             smt_sbj_id = #{smtSbjId}
     </select>
-    <select id="getAll" resultType="com.example.domain.model.SmtSbjModel">
+    <select id="getAll" resultType="com.example.service.domain.model.SmtSbjModel">
         SELECT
             *
         FROM

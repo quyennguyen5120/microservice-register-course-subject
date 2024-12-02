@@ -52,11 +52,11 @@ subprojects {
     }
 
     tasks.withType(BootJar).configureEach {
-        enabled = false
+        mainClass.set('com.example.ServiceRegisterApplication')
     }
 
     tasks.withType(BootRun).configureEach {
-        enabled = false
+        mainClass.set('com.example.ServiceRegisterApplication')
     }
 }
 
