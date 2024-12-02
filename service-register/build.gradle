@@ -7,6 +7,10 @@ plugins {
 group = 'com.example'
 version = '1.0-SNAPSHOT'
 
+java {
+    sourceCompatibility = '17'
+}
+
 subprojects {
     apply plugin: 'java'
     apply plugin: 'org.springframework.boot'
@@ -14,6 +18,7 @@ subprojects {
 
     repositories {
         mavenCentral()
+        gradlePluginPortal()
     }
 
     dependencyManagement {

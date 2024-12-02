@@ -1,7 +1,10 @@
+pluginManagement {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
 rootProject.name = 'service-register'
-include 'ddd-application'
-include 'ddd-controller'
-include 'ddd-start'
-include 'ddd-domain'
-include 'ddd-infrastructure'
+include 'ddd-application', 'ddd-controller', 'ddd-start', 'ddd-domain', 'ddd-infrastructure'
 

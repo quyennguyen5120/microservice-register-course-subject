@@ -38,10 +38,13 @@ Các chức năng hỗ trợ:
 - Quản lý các khoản miễn giảm hoặc hỗ trợ tài chính cho sinh viên.
 - Tích hợp với các cổng thanh toán trực tuyến để xử lý giao dịch học phí tự động.
 
----
-
 Dự án giúp cải thiện quy trình đăng ký học và thanh toán học phí tại các trường đại học, mang lại trải nghiệm mượt mà và hiệu quả cho sinh viên.
 
 # Kiến trúc Kỹ thuật (Technical Architecture)
 
 ---
+
+# Hướng dẫn cài đặt
+
+---
+

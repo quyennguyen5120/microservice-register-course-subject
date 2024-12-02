@@ -1,0 +1,16 @@
+scrape_configs:
+  - job_name: 'promethus'
+    metrics_path: '/metrics'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['host.docker.internal:9090']
+  - job_name: 'spring-boot-application'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['host.docker.internal:1222']
+  - job_name: 'node-exporter'
+    metrics_path: '/metrics'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['host.docker.internal:9100']
