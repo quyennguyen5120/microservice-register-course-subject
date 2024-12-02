@@ -1,3 +1,6 @@
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+import org.springframework.boot.gradle.tasks.run.BootRun
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.3.5'
@@ -7,8 +10,8 @@ plugins {
 group = 'com.example'
 version = '1.0-SNAPSHOT'
 
-java {
-    sourceCompatibility = '17'
+repositories {
+    maven { url 'https://repo1.maven.org/maven2' }
 }
 
 subprojects {
@@ -18,7 +21,6 @@ subprojects {
 
     repositories {
         mavenCentral()
-        gradlePluginPortal()
     }
 
     dependencyManagement {
@@ -48,11 +50,20 @@ subprojects {
     test {
         useJUnitPlatform()
     }
+
+    tasks.withType(BootJar).configureEach {
+        enabled = false
+    }
+
+    tasks.withType(BootRun).configureEach {
+        enabled = false
+    }
 }
 
 project(':ddd-start') {
     dependencies {
         implementation project(':ddd-controller')
+        implementation 'org.springframework.boot:spring-boot-starter'
     }
 }
 
@@ -83,4 +94,12 @@ project(':ddd-infrastructure') {
         implementation 'p6spy:p6spy:3.9.1'
         implementation group: 'org.redisson', name: 'redisson', version: '3.38.1'
     }
+}
+
+tasks.withType(BootJar).configureEach {
+    mainClass.set('com.example.ServiceRegisterApplication')
+}
+
+tasks.withType(BootRun).configureEach {
+    mainClass.set('com.example.ServiceRegisterApplication')
 }
