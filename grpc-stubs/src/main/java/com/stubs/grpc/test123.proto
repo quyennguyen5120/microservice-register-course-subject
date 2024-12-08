@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.stubs.grpc";
+option java_outer_classname = "TestProto";
+
+// Định nghĩa service
+service Test123Service {
+  rpc sayHello (HelloRequest) returns (HelloResponse);
+}
+
+// Request message
+message HelloRequest {
+  string name = 1;
+  int32 id = 2;
+}
+
+// Response message
+message HelloResponse {
+  string message = 1; // Trường message
+}

@@ -1,0 +1,13 @@
+server:
+  port: 1223
+spring:
+  application:
+    name: service-tuition
+  datasource:
+    url: jdbc:mysql://localhost:3306/lab?createDatabaseIfNotExist=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
