@@ -1,57 +1,61 @@
 plugins {
-    id('java')
-    id('idea')
-    id('com.google.protobuf') version '0.9.4'
+    id 'java'                                       // Plugin Java cơ bản
+    id 'com.google.protobuf' version '0.9.4'       // Plugin biên dịch protobuf
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
 dependencies {
-    implementation 'com.google.protobuf:protobuf-java:3.6.1'
-    implementation 'io.grpc:grpc-stub:1.15.1'
-    implementation 'io.grpc:grpc-protobuf:1.15.1'
+    implementation 'net.devh:grpc-server-spring-boot-starter:3.1.0.RELEASE'
+    implementation 'com.google.protobuf:protobuf-java:4.29.0'     // Thư viện protobuf
+    implementation 'io.grpc:grpc-netty:1.68.2'                   // Netty cho gRPC
+    implementation 'io.grpc:grpc-protobuf:1.68.2'                // Biên dịch protobuf cho gRPC
+    implementation 'io.grpc:grpc-stub:1.68.2'                    // Stub gRPC
 
-    if (JavaVersion.current().isJava9Compatible()) {
-        // Workaround for @javax.annotation.Generated
-        // see: https://github.com/grpc/grpc-java/issues/3633
-        implementation 'javax.annotation:javax.annotation-api:1.3.1'
-    }
-
-    // Extra proto source files besides the ones residing under
-    // "src/main".
-    protobuf files("lib/protos.tar.gz")
-    protobuf files("ext/")
-
-    testImplementation 'junit:junit:4.12'
-    // Extra proto source files for test besides the ones residing under
-    // "src/test".
-    testProtobuf files("lib/protos-test.tar.gz")
+    compileOnly 'javax.annotation:javax.annotation-api:1.3.2'    // Annotation API cho gRPC
 }
 
 protobuf {
     protoc {
-        // The artifact spec for the Protobuf Compiler
-        artifact = 'com.google.protobuf:protoc:3.6.1'
+        artifact = 'com.google.protobuf:protoc:4.29.1'
     }
     plugins {
-        // Optional: an artifact spec for a protoc plugin, with "grpc" as
-        // the identifier, which can be referred to in the "plugins"
-        // container of the "generateProtoTasks" closure.
         grpc {
-            artifact = 'io.grpc:protoc-gen-grpc-java:1.15.1'
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.68.2' // Plugin để sinh mã gRPC
         }
     }
     generateProtoTasks {
-        ofSourceSet('main').configureEach {
-            plugins {
-                // Apply the "grpc" plugin whose spec is defined above, without
-                // options.  Note the braces cannot be omitted, otherwise the
-                // plugin will not be added. This is because of the implicit way
-                // NamedDomainObjectContainer binds the methods.
-                grpc { }
+        all().each { task ->
+            task.builtins {
+                java {}  // Tạo các file Java từ tệp .proto
+            }
+            task.plugins {
+                grpc {}  // Tạo các file gRPC stub
             }
         }
+    }
+}
+
+compileJava {
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
+}
+
+apply plugin: 'maven-publish'
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            groupId = 'com.xxx.service'
+            artifactId = 'common-grpc-stubs'
+            version = '1.0.0'
+        }
+    }
+    repositories {
+        mavenLocal()  // Xuất bản vào Maven Local
     }
 }

@@ -11,3 +11,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+grpc:
+  client:
+    auth:
+      address: localhost:5656
+      negotiation-type: plaintext
+

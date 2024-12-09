@@ -24,6 +24,8 @@ repositories {
 }
 
 dependencies {
+    implementation 'net.devh:grpc-client-spring-boot-starter:3.1.0.RELEASE'
+    implementation 'com.xxx.service:common-grpc-stubs:1.0.0'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
     implementation 'mysql:mysql-connector-java:8.0.33'
