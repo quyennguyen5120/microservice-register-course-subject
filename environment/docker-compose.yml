@@ -5,6 +5,20 @@ networks:
     driver: bridge
 
 services:
+  #Service-tuition
+  pre-service-tuition:
+    container_name: pre-service-tuition
+    build:
+      context: ../service-tuition/.
+      dockerfile: ../service-tuition/Dockerfile
+    ports:
+      - "1223:1223"
+    networks:
+      - pre-event-network
+    depends_on:
+      - pre-redis
+    environment:
+      - SPRING_PROFILES_ACTIVE=local
   #Service-register
   pre-service-register:
     container_name: pre-service-register

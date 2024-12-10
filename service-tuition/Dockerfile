@@ -1,20 +1,21 @@
 FROM amazoncorretto:17-alpine AS builder
+WORKDIR /app
 COPY gradlew .
 COPY gradle gradle
 COPY build.gradle .
 COPY settings.gradle .
-COPY ddd-start ddd-start
-COPY ddd-application ddd-application
-COPY ddd-domain ddd-domain
-COPY ddd-infrastructure ddd-infrastructure
-COPY ddd-controller ddd-controller
-RUN chmod +x ./gradlew && ./gradlew bootJar
+COPY src src
+RUN ls -alh /app
+RUN chmod +x ./gradlew
+WORKDIR /app
+RUN ./gradlew build
 
 
 FROM amazoncorretto:17-alpine
-COPY --from=builder build/ddd-start/libs/*.jar app.jar
+COPY --from=builder build/libs/*.jar app.jar
 
-EXPOSE 1222
+EXPOSE 1223
+EXPOSE 6566
 
 ARG SPRING_PROFILES_ACTIVE
 RUN echo $SPRING_PROFILES_ACTIVE
