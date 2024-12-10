@@ -6,6 +6,7 @@ import com.stubs.grpc.HelloServiceGrpc;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -13,11 +14,11 @@ public class HelloController {
     @GrpcClient("auth")
     HelloServiceGrpc.HelloServiceStub stub;
 
-    @GetMapping("/")
-    public String test() {
+    @GetMapping("/{name}")
+    public String test(@PathVariable String name) {
         HelloRequest request = HelloRequest.newBuilder()
                 .setId(1)
-                .setName("Tuition")
+                .setName(name)
                 .build();
         StreamObserver<HelloResponse> responseObserver = new StreamObserver<>() {
             @Override
@@ -39,6 +40,6 @@ public class HelloController {
             }
         };
         stub.sayHello(request, responseObserver);
-        return "";
+        return name;
     }
 }

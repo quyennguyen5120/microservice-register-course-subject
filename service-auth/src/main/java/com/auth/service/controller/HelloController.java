@@ -12,5 +12,10 @@ public class HelloController extends HelloServiceGrpc.HelloServiceImplBase {
     @Override
     public void sayHello(HelloRequest request, StreamObserver<HelloResponse> responseObserver) {
         System.out.println("Received message: " + request.getName());
+        HelloResponse res = HelloResponse.newBuilder()
+                .setMessage("Hello " + request.getName())
+                .build();
+        responseObserver.onNext(res);
+        responseObserver.onCompleted();
     }
 }

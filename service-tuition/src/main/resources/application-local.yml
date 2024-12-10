@@ -12,8 +12,10 @@ spring:
     hibernate:
       ddl-auto: update
 grpc:
+  server:
+    port: 6566
   client:
     auth:
-      address: localhost:5656
+      address: localhost:6565 # address of the authentication service
       negotiation-type: plaintext
 
